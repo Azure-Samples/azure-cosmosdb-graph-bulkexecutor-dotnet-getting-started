@@ -225,8 +225,6 @@ extent, and prolonged period of throttling might lead the tool to give up.
   [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
   questions or comments.
 
-  See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
   To give feedback and/or report an issue, open a [GitHub
   Issue](https://help.github.com/articles/creating-an-issue/).
 
