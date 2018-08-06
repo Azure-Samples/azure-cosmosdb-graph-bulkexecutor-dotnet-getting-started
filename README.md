@@ -43,7 +43,7 @@ BulkImportResponse eResponse =
 
 ## Graph Bulk Import API
 
-  Below is the primary API for graph bulk import API. The same API can be used for both vertices and edges as it accepts IEnumerable<object> as input. However these objects needs be of type Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element.GremlinVertex or Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element.GremlinEdge. If any other types of objects are provided, the API will reject them by throw an error.
+  Below is the primary API for graph bulk import API. The same API can be used for both vertices and edges as it accepts IEnumerable<object> as input. However these objects needs be of type Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element.GremlinVertex or Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element.GremlinEdge. If any other types of objects are provided, the API will reject them by throwing an error.
 
   * With list of JSON-serialized documents
   ```csharp
