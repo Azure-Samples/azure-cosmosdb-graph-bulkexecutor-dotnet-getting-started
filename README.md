@@ -119,7 +119,7 @@ BulkImportResponse bulkImportResponse = await bulkExecutor.BulkImportAsync(
     cancellationToken: token);
 ```
 
-You can find the complete sample application program consuming the bulk import API [here](https://github.com/Azure/azure-cosmosdb-graph-bulkexecutor-dotnet-getting-started/blob/master/GraphBulkExecutorSample/GraphBulkExecutorSample/Program.cs) - which generates random vertices and edges to be then bulk imported into an Azure Cosmos DB collection. You can configure the application settings in *appSettings* [here](https://github.com/Azure/azure-cosmosdb-graph-bulkexecutor-dotnet-getting-started/blob/master/GraphBulkExecutorSample/GraphBulkExecutorSample/App.config).
+You can find the complete sample application program consuming the bulk import API [here](https://github.com/Azure-Samples/azure-cosmosdb-graph-bulkexecutor-dotnet-getting-started/blob/master/GraphBulkExecutorSample/GraphBulkExecutorSample/Program.cs) - which generates random vertices and edges to be then bulk imported into an Azure Cosmos DB collection. You can configure the application settings in *appSettings* [here](https://github.com/Azure-Samples/azure-cosmosdb-graph-bulkexecutor-dotnet-getting-started/blob/master/GraphBulkExecutorSample/GraphBulkExecutorSample/App.config).
 
 You can download the Microsoft.Azure.CosmosDB.BulkExecutor nuget package from [here](https://www.nuget.org/packages/Microsoft.Azure.CosmosDB.BulkExecutor/).
 
