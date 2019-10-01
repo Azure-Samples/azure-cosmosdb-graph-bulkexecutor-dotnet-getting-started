@@ -14,8 +14,6 @@ urlFragment: azure-cosmosdb-graph-bulkexecutor-dotnet-getting-started
 
 The Azure Cosmos DB BulkExecutor library for .NET acts as an extension library to the [Cosmos DB .NET SDK](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sdk-dotnet) and provides developers out-of-the-box functionality to perform bulk operations in [Azure Cosmos DB](http://cosmosdb.com).
 
-------------------------------------------
-
 ## A few key concepts before you start 
 
 * [Partitioning For Graph API](https://docs.microsoft.com/en-us/azure/cosmos-db/graph-partitioning) : A collection or a graph represent same underlying CosmosDB concept, and we will use graph and collection interchangeably in this document. Additionally please note that a partitioned graph/collection is equivalent to a unlimited collection/graph.
@@ -40,17 +38,11 @@ BulkImportResponse vResponse =
                 
 BulkImportResponse eResponse =
                 await graphBulkImporter.BulkImportAsync(iEdges, enableUpsert:true).ConfigureAwait(false);
-``` 
-
-------------------------------------------
-
+```
 
 ## Consuming the Microsoft Azure Cosmos DB BulkExecutor .NET library
 
   This project includes samples, documentation and performance tips for consuming the BulkExecutor library. You can download the official public NuGet package from [here](https://www.nuget.org/packages/Microsoft.Azure.CosmosDB.BulkExecutor/).
-
-------------------------------------------
-
 
 ## Graph Bulk Import API
 
@@ -67,8 +59,6 @@ BulkImportResponse eResponse =
             CancellationToken cancellationToken = default(CancellationToken));
 ```
 
-------------------------------------------
-
 ## Configurable parameters
 
 * *enableUpsert* : A flag to enable upsert of the documents if document with given id already exists - default value is false.
@@ -77,9 +67,6 @@ BulkImportResponse eResponse =
 * *maxInMemorySortingBatchSize* : The maximum number of documents pulled from the document enumerator passed to the API call in each stage for in-memory pre-processing sorting phase prior to bulk importing, setting to null will cause library to use default value of min(documents.count, 1000000).
 * *cancellationToken* : The cancellation token to gracefully exit bulk import.
 
-------------------------------------------
-
-
 ## Bulk import response object definition
 
 The result of the bulk import API call contains the following attributes:
@@ -87,8 +74,6 @@ The result of the bulk import API call contains the following attributes:
 * *TotalRequestUnitsConsumed* (double) : The total request units (RU) consumed by the bulk import API call.
 * *TotalTimeTaken* (TimeSpan) : The total time taken by the bulk import API call to complete execution.
 * *BadInputDocuments* (List\<object\>) : The list of bad-format documents which were not successfully imported in the bulk import API call. User needs to fix the documents returned and retry import. Bad-format documents include documents whose *id* value is not a string (null or any other datatype is considered invalid).
-
-------------------------------------------
 
 ## Getting started with bulk import
 
@@ -134,8 +119,6 @@ You can find the complete sample application program consuming the bulk import A
 
 You can download the Microsoft.Azure.CosmosDB.BulkExecutor nuget package from [here](https://www.nuget.org/packages/Microsoft.Azure.CosmosDB.BulkExecutor/).
 
-------------------------------------------
-
 ## Performance of bulk import sample
 
 - Database location: West US
@@ -165,8 +148,6 @@ You can download the Microsoft.Azure.CosmosDB.BulkExecutor nuget package from [h
 * A k GB graph has k/10 partitions each of size 10GB. So, the 830GB graph has 83 partition. 
 * These numbers may vary depending on available network bandwidth
 
-------------------------------------------
-
 ## API implementation details
 
 When a bulk import API is triggered with a batch of documents, on the client-side, they are first shuffled into buckets corresponding to their target Cosmos DB partition key range. Within each partiton key range bucket, they are broken down into mini-batches and each mini-batch of documents acts as a payload that is committed transactionally.
@@ -174,8 +155,6 @@ When a bulk import API is triggered with a batch of documents, on the client-sid
 We have built in optimizations for the concurrent execution of these mini-batches both within and across partition key ranges to maximally utilize the allocated collection throughput. We have designed an [AIMD-style congestion control](https://academic.microsoft.com/#/detail/2158700277?FORM=DACADP) mechanism for each Cosmos DB partition key range **to efficiently handle throttling and timeouts**.
 
 These client-side optimizations augment server-side features specific to the BulkExecutor library which together make maximal consumption of available throughput possible.
-
-------------------------------------------
 
 ## Performance tips
 
@@ -201,8 +180,6 @@ These client-side optimizations augment server-side features specific to the Bul
   </system.diagnostics>
 ```
 
-------------------------------------------
-
 ## Troubleshooting
 
 1. Slow Ingestion rate: 
@@ -225,22 +202,18 @@ extent, and prolonged period of throttling might lead the tool to give up.
 	- Out of Memory Exception: If you have a large number of partitions, and are ingesting a lot of data, the tool would require more memory to operate. We recommend moving with a machine with higher memory. 
 	Alternatively, you can split the workload and put multiple machines to work. 
 
-------------------------------------------
+## Contributing & feedback
 
-# Contributing & feedback
+This project has adopted the [Microsoft Open Source Code of
+Conduct](https://opensource.microsoft.com/codeofconduct/).  For more information
+see the [Code of Conduct
+FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
+questions or comments.
 
-  This project has adopted the [Microsoft Open Source Code of
-  Conduct](https://opensource.microsoft.com/codeofconduct/).  For more information
-  see the [Code of Conduct
-  FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
-  [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
-  questions or comments.
+To give feedback and/or report an issue, open a [GitHub
+Issue](https://help.github.com/articles/creating-an-issue/).
 
-  To give feedback and/or report an issue, open a [GitHub
-  Issue](https://help.github.com/articles/creating-an-issue/).
+## Other relevant projects
 
-  ------------------------------------------
-
-  ## Other relevant projects
-
-  * [Cosmos DB BulkExecutor library for SQl API ](https://github.com/Azure/azure-cosmosdb-bulkexecutor-dotnet-getting-started)
+* [Cosmos DB BulkExecutor library for SQl API ](https://github.com/Azure/azure-cosmosdb-bulkexecutor-dotnet-getting-started)
