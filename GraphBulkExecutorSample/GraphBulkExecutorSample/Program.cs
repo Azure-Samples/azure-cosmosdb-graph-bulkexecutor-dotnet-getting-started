@@ -7,6 +7,7 @@ namespace GraphBulkImportSample
     using System;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace GraphBulkImportSample
     using Microsoft.Azure.CosmosDB.BulkExecutor;
     using Microsoft.Azure.CosmosDB.BulkExecutor.BulkImport;
     using Microsoft.Azure.CosmosDB.BulkExecutor.Graph;
+    using System.Collections.Generic;
 
     class Program
     {
@@ -179,23 +181,36 @@ namespace GraphBulkImportSample
                 (vResponse.NumberOfDocumentsImported + eResponse.NumberOfDocumentsImported));
             Console.WriteLine("---------------------------------------------------------------------\n ");
 
-            if (vResponse.BadInputDocuments.Count > 0 || eResponse.BadInputDocuments.Count > 0)
-            {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@".\BadVertices.txt", true))
-                {
-                    foreach (object doc in vResponse.BadInputDocuments)
-                    {
-                        file.WriteLine(doc);
-                    }
-                }
 
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@".\BadEdges.txt", true))
-                {
-                    foreach (object doc in eResponse.BadInputDocuments)
-                    {
-                        file.WriteLine(doc);
-                    }
-                }
+            // For responses which failed to import all elements, BulkImportResponse.FailedImports
+            // will include the batches of elements that failed along with the cause exception.
+            // Here you may want to do programmatic recovery operations based on the type of exception in 
+            // BulkImportFailure.BulkImportFailureException, such as skipping or retrying.
+            //
+            // This sample writes the failed elements to files for review.
+            // NOTE: This does not write out the cause exception.
+            if (vResponse.FailedImports.Count > 0)
+            {
+                CreateErrorDump(@".\FailedVertices.txt", vResponse.FailedImports.SelectMany(f => f.DocumentsFailedToImport));
+            }
+
+            if (eResponse.FailedImports.Count > 0)
+            {
+                CreateErrorDump(@".\FailedVertices.txt", eResponse.FailedImports.SelectMany(f => f.DocumentsFailedToImport));
+            }
+
+
+            // BulkImportResponse.BadInputDocuments are for elements whose content was malformed.
+            // Generally we don't expect to see errors for these provided GremlinVertex and GremlinEdge
+            // objects are used to BulkImportAsync().
+            if (vResponse.BadInputDocuments.Count > 0)
+            {
+                CreateErrorDump(@".\BadVertices.txt", vResponse.BadInputDocuments);
+            }
+
+            if (eResponse.BadInputDocuments.Count > 0)
+            {
+                CreateErrorDump(@".\BadVertices.txt", eResponse.BadInputDocuments);
             }
 
             // Cleanup on finish if set in config.
@@ -207,6 +222,17 @@ namespace GraphBulkImportSample
 
             Trace.WriteLine("\nPress any key to exit.");
             Console.ReadKey();
+        }
+
+        private static void CreateErrorDump(string fileName, IEnumerable<object> docs)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileName, true))
+            {
+                foreach (object doc in docs)
+                {
+                    file.WriteLine(doc);
+                }
+            }
         }
     }
 }
