@@ -2,19 +2,18 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------
 
+using Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace GraphBulkImportSample
 {
-    using Microsoft.Azure.CosmosDB.BulkExecutor.Graph.Element;
-    using Microsoft.Azure.Documents;
-    using Microsoft.Azure.Documents.Client;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Configuration;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     internal sealed class Utils
     {
         /// <summary>
